@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import { PenLine, BookOpen } from "lucide-react";
+import { NavLink } from "react-router-dom"
 
 const Hero = () => {
   return (
@@ -29,10 +30,10 @@ const Hero = () => {
               Start Writing
             </button>
 
-            <button className="border border-slate-900 px-8 py-3 rounded-lg font-medium hover:bg-slate-900 hover:text-white transition flex items-center gap-2">
+            <NavLink to='/blogs' className="border border-slate-900 px-8 py-3 rounded-lg font-medium hover:bg-slate-900 hover:text-white transition flex items-center gap-2">
               <BookOpen size={18} />
               Read Articles
-            </button>
+            </NavLink>
 
           </div>
 

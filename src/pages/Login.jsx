@@ -63,7 +63,6 @@ const Login = () => {
 
           <form className="space-y-5" onSubmit={handleSubmit}>
 
-            {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -78,7 +77,6 @@ const Login = () => {
               />
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Password
