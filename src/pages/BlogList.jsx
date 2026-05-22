@@ -19,13 +19,13 @@ const BlogList = () => {
             </h1>
           </div>
 
-          {posts.length === 0 ? (
+          {posts.published.length === 0 ? (
             <div className="text-center text-gray-500 py-20">
               No blog posts available.
             </div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post) => (
+              {posts.published.map((post) => (
                 <Link
                   key={post._id}
                   to={`/post/${post._id}`}

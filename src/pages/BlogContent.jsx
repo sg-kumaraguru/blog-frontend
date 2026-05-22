@@ -12,7 +12,7 @@ const BlogContent = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const existingPost = posts?.find((p) => p._id === id);
+    const existingPost = posts.published?.find((p) => p._id === id);
 
     if (existingPost) {
       setPost(existingPost);
@@ -68,10 +68,6 @@ const BlogContent = () => {
           </h1>
 
           <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 mb-6">
-            <span className="font-medium text-gray-800">
-              {post.author?.name}
-            </span>
-            <span>•</span>
             <span>
               {new Date(post.createdAt).toLocaleDateString()}
             </span>
