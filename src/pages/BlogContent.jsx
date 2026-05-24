@@ -3,22 +3,16 @@ import { useEffect, useState } from "react";
 import { useBlog } from "../context/BlogContext";
 import Navbar from "../components/Navbar";
 import { blogAPI } from "../api/blogApi";
+import { commentsAPI } from "../api/commentsApi";
 
 const BlogContent = () => {
   const { id } = useParams();
-  const { posts } = useBlog();
 
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
-    const existingPost = posts.published?.find((p) => p._id === id);
-
-    if (existingPost) {
-      setPost(existingPost);
-      setLoading(false);
-      return;
-    }
 
     const fetchPost = async () => {
       try {
@@ -32,7 +26,32 @@ const BlogContent = () => {
     };
 
     fetchPost();
-  }, [id, posts]);
+  }, []);
+
+  useEffect(()=> {
+    console.log(post)
+  },[post])
+
+
+  const handleComment = async () => {
+    try {
+      const { data } = await commentsAPI.createComment(id, {
+        content: comment,
+      });
+
+      setComment("");
+
+      console.log(data);
+
+      setPost((prevPost) => ({
+        ...prevPost,
+        comments: [data, ...prevPost.comments],
+      }));
+
+    } catch (error) {
+      console.error("Failed to create comment");
+    }
+  };
 
   if (loading) {
     return (
@@ -90,9 +109,16 @@ const BlogContent = () => {
             {post.content}
           </article>
 
-          <div className="my-10 border-t" />
+          <div className="my-6 border-t" />
 
           <section>
+
+            <div className='flex items-center justify-between gap-2 my-6'>
+              <input className='border-2 px-2 py-1 w-full rounded-xl' type='text' placeholder='give your comment..'
+              value={comment} onChange={(e)=>setComment(e.target.value)} />
+              <button className='px-2 py-1 border-2 border-gray-900 rounded-xl bg-gray-900 text-gray-100'
+              onClick={handleComment}> comment </button>
+            </div>
             <h2 className="text-lg sm:text-xl font-semibold mb-6">
               Comments ({post.comments?.length || 0})
             </h2>

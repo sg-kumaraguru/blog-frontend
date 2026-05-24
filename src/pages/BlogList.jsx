@@ -1,10 +1,30 @@
-import { useBlog } from "../context/BlogContext";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { blogAPI } from "../api/blogApi";
 
 const BlogList = () => {
-  const { posts } = useBlog();
-  console.log(posts);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const { data } = await blogAPI.getAllPosts();
+        setPosts(data);
+      } catch (error) {
+        console.error("Failed to fetch post");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, []);
+
+  useEffect(() => {
+    console.log(posts);
+  }, [posts]);
 
   return (
     <>
@@ -19,13 +39,13 @@ const BlogList = () => {
             </h1>
           </div>
 
-          {posts.published.length === 0 ? (
+          {posts.length === 0 ? (
             <div className="text-center text-gray-500 py-20">
               No blog posts available.
             </div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {posts.published.map((post) => (
+              {posts.map((post) => (
                 <Link
                   key={post._id}
                   to={`/post/${post._id}`}
