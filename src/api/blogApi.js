@@ -1,7 +1,7 @@
 import api from "./api";
 
 export const blogAPI = {
-  getAllPosts: () => api.get("/post"),
+  getAllPosts: (params = {}) => api.get("/post", {params}),
   getPostById: (id) => api.get(`/post/${id}`),
   getMyPosts: () => api.get("/post/me/all"),
   createPost: (data) => api.post("/post", data),
